@@ -94,6 +94,9 @@ void Solitaire::pop(char from) {
         stock.getCards().pop_back();
     } else {
         tableaus[from - '0'].getCards().pop_back();
+        if (buffer.empty() && !tableaus[from - '0'].isEmpty()) {
+            tableaus[from - '0'].peek().flip();
+        }
     }
 }
 
@@ -110,7 +113,7 @@ void Solitaire::move() {
     }
 
     bufferCard(from);
-    if (buffer.size() == 0)
+    if (buffer.empty())
         return;
 
     Card& card = buffer.front();
@@ -124,10 +127,7 @@ void Solitaire::move() {
             tableaus[to - '0'].add(card, true);
             pop(from);
         }
-        if (!tableaus[from - '0'].isEmpty()) {
-            tableaus[from - '0'].peek().flip();
-        }
-    } else if (buffer.size() == 0 && to == 'f') {
+    } else if (buffer.empty() && to == 'f') {
         for (size_t i = 0; i < foundations.size(); i++) {
             if (foundations[i].add(card, false)) {
                 pop(from);
