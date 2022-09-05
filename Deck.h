@@ -52,7 +52,7 @@ void Deck::add(Card card) {
 }
 
 void Deck::printDeck() {
-    for (int i = 0; i < cards.size(); i++) {
+    for (size_t i = 0; i < cards.size(); i++) {
         std::cout << cards[i] << std::endl;
     }
 }

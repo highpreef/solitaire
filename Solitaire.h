@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <array>
+#include <ctype.h>
 #include "Deck.h"
 #include "FoundationCardStack.h"
 #include "TableauCardStack.h"
@@ -13,12 +14,17 @@ class Solitaire {
 public:
     Solitaire();
     void deal();
+    void bufferCard(char from);
+    void pop(char from);
+    void move();
+    bool isWon();
     void print();
 private:
     void init();
     Deck deck;
     std::array<FoundationCardStack, 4> foundations;
     std::array<TableauCardStack, 7> tableaus;
+    std::vector<Card> buffer;
     WasteCardStack waste;
     StockCardStack stock;
 };
@@ -57,6 +63,74 @@ void Solitaire::deal() {
     stock.add(card, true);
 }
 
+void Solitaire::bufferCard(char from) {
+    if (buffer.size() > 0)
+        buffer.pop_back();
+
+    if (from == 's') {
+        if (stock.isEmpty()) {
+            std::cout << "Stock is empty" << std::endl;
+            return;
+        }
+        buffer.push_back(stock.peek());
+    } else {
+        if (tableaus[from - '0'].isEmpty()) {
+            std::cout << "Tableau " << from << " is empty" << std::endl;
+            return;
+        }
+        buffer.push_back(tableaus[from - '0'].peek());
+    }
+    return;
+}
+
+void Solitaire::pop(char from) {
+    if (from == 's') {
+        stock.getCards().pop_back();
+    } else {
+        tableaus[from - '0'].getCards().pop_back();
+    }
+}
+
+void Solitaire::move() {
+    char from, to;
+    std::cout << "From: ";
+    std::cin >> from;
+    std::cout << "To: ";
+    std::cin >> to;
+
+    if ((from != 's' && !isdigit(from)) || (to != 'f' && !isdigit(to))) {
+        std::cout << "Invalid input" << std::endl;
+        return;
+    }
+
+    bufferCard(from);
+    if (buffer.size() == 0)
+        return;
+    Card& card = buffer.back();
+
+    if (isdigit(to) && to - '0' < static_cast<int>(tableaus.size()) && tableaus[to].add(card, false)) {
+        pop(from);
+    } else if (to == 'f') {
+        for (size_t i = 0; i < foundations.size(); i++) {
+            if (foundations[i].add(card, false)) {
+                pop(from);
+                break;
+            }
+        }
+    } else {
+        std::cout << "Invalid move" << std::endl;
+    }
+}
+
+bool Solitaire::isWon() {
+    for (size_t i = 0; i < foundations.size(); i++) {
+        if (foundations[i].size() != 13) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void Solitaire::print() {
     std::cout<<"=============================================\n";
 	for (int i = 0; i < 4; i++) {
@@ -84,14 +158,14 @@ void Solitaire::print() {
     int max = 0;
 
     for (int i = 0; i < 7; i++) {
-        if (tableaus[i].getCards().size() > max) {
+        if (static_cast<int>(tableaus[i].getCards().size()) > max) {
             max = tableaus[i].getCards().size();
         }
     }
 
     for (int i = 0; i < max; i++) {
         for (int j = 0; j < 7; j++) {
-            if (tableaus[j].getCards().size() > i) {
+            if (static_cast<int>(tableaus[j].getCards().size()) > i) {
                 std::cout << tableaus[j].getCards()[i];
             } else {
                 std::cout << "[ ]";

@@ -79,7 +79,7 @@ std::ostream& operator<<(std::ostream& os, const Card& card) {
     if (card.isFaceUp()) {
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
         if (card.isBlack())
-            SetConsoleTextAttribute(hConsole, BLACK);
+            SetConsoleTextAttribute(hConsole, BLUE);
         else
             SetConsoleTextAttribute(hConsole, RED);
         os << RANKS[card.rank] << SUITS[card.suit];

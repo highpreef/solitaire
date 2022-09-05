@@ -19,6 +19,7 @@ int main()
         {
             case 49:
                 std::cout << "Move Card";
+                game.move();
                 break;
             case 50:
                 std::cout << "Deal";
