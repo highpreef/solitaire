@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <array>
+#include <deque>
 #include <ctype.h>
 #include "Deck.h"
 #include "FoundationCardStack.h"
@@ -24,7 +25,7 @@ private:
     Deck deck;
     std::array<FoundationCardStack, 4> foundations;
     std::array<TableauCardStack, 7> tableaus;
-    std::vector<Card> buffer;
+    std::deque<Card> buffer;
     WasteCardStack waste;
     StockCardStack stock;
 };
@@ -64,7 +65,7 @@ void Solitaire::deal() {
 }
 
 void Solitaire::bufferCard(char from) {
-    if (buffer.size() > 0)
+    while (buffer.size() > 0)
         buffer.pop_back();
 
     if (from == 's') {
@@ -78,7 +79,12 @@ void Solitaire::bufferCard(char from) {
             std::cout << "Tableau " << from << " is empty" << std::endl;
             return;
         }
-        buffer.push_back(tableaus[from - '0'].peek());
+
+        for (size_t i = 0; i < tableaus[from - '0'].size(); i++) {
+            if (tableaus[from - '0'].getCards()[i].isFaceUp()) {
+                buffer.push_back(tableaus[from - '0'].getCards()[i]);
+            }
+        }
     }
     return;
 }
@@ -88,9 +94,6 @@ void Solitaire::pop(char from) {
         stock.getCards().pop_back();
     } else {
         tableaus[from - '0'].getCards().pop_back();
-        if (!tableaus[from - '0'].isEmpty()) {
-            tableaus[from - '0'].peek().flip();
-        }
     }
 }
 
@@ -109,11 +112,22 @@ void Solitaire::move() {
     bufferCard(from);
     if (buffer.size() == 0)
         return;
-    Card& card = buffer.back();
+
+    Card& card = buffer.front();
+    buffer.pop_front();
 
     if (isdigit(to) && to - '0' < static_cast<int>(tableaus.size()) && tableaus[to - '0'].add(card, false)) {
         pop(from);
-    } else if (to == 'f') {
+        while (!buffer.empty()) {
+            Card& card = buffer.front();
+            buffer.pop_front();
+            tableaus[to - '0'].add(card, true);
+            pop(from);
+        }
+        if (!tableaus[from - '0'].isEmpty()) {
+            tableaus[from - '0'].peek().flip();
+        }
+    } else if (buffer.size() == 0 && to == 'f') {
         for (size_t i = 0; i < foundations.size(); i++) {
             if (foundations[i].add(card, false)) {
                 pop(from);
