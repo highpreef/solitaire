@@ -111,7 +111,7 @@ void Solitaire::move() {
         return;
     Card& card = buffer.back();
 
-    if (isdigit(to) && to - '0' < static_cast<int>(tableaus.size()) && tableaus[to].add(card, false)) {
+    if (isdigit(to) && to - '0' < static_cast<int>(tableaus.size()) && tableaus[to - '0'].add(card, false)) {
         pop(from);
     } else if (to == 'f') {
         for (size_t i = 0; i < foundations.size(); i++) {
