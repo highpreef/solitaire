@@ -208,11 +208,18 @@ void Solitaire::print() {
         int firstSideUp = 0;
         for (size_t i = 0; i < tableaus[column].size(); i++) {
             if (tableaus[column].getCards()[i].isFaceUp()) {
-                firstSideUp = i;
+                firstSideUp = static_cast<int>(i);
                 break;
             }
         }
-        highlight = lastCard ? tableaus[column].size() - 1 : firstSideUp;
+        highlight = lastCard ? static_cast<int>(tableaus[column].size() - 1) : firstSideUp;
+
+        if (movingCard) {
+            highlight += 1;
+            if (highlight >= max) {
+                max += 1;
+            }
+        }
     }
 
     for (int i = 0; i < max; i++) {

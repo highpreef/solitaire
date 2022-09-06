@@ -32,10 +32,11 @@ void Cursor::move(Key key, std::array<TableauCardStack, 7>& tableaus) {
                 }
             } else if (state == FOUNDATION) {
                 state = TABLEAU;
+                col = 0;
             } else if (state == STOCK) {
                 state = FOUNDATION;
+                col = 0;
             }
-            col = 0;
             break;
         case Key::DOWN:
             if (state == TABLEAU) {
@@ -46,10 +47,11 @@ void Cursor::move(Key key, std::array<TableauCardStack, 7>& tableaus) {
                 }
             } else if (state == FOUNDATION) {
                 state = STOCK;
+                col = 0;
             } else if (state == STOCK) {
                 state = TABLEAU;
+                col = 0;
             }
-            col = 0;
             break;
         case Key::LEFT:
             if (state == TABLEAU) {
