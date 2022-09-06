@@ -1,5 +1,9 @@
-#ifndef TABLEAUCARDSTACK_H
-#define TABLEAUCARDSTACK_H
+//
+// Created by DAVID on 06/09/2022.
+//
+
+#ifndef SOLITAIRE_TABLEAUCARDSTACK_H
+#define SOLITAIRE_TABLEAUCARDSTACK_H
 
 #include "AbstractCardStack.h"
 
@@ -36,4 +40,4 @@ int TableauCardStack::getVisibleCardCount(){
     return count;
 }
 
-#endif
+#endif //SOLITAIRE_TABLEAUCARDSTACK_H

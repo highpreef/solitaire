@@ -1,5 +1,9 @@
-#ifndef DECK_H
-#define DECK_H
+//
+// Created by DAVID on 06/09/2022.
+//
+
+#ifndef SOLITAIRE_DECK_H
+#define SOLITAIRE_DECK_H
 
 #include <iostream>
 #include <deque>
@@ -12,11 +16,12 @@ public:
     Deck();
 
     void shuffle();
-    void printDeck();
+
+    [[maybe_unused]] void printDeck();
     void add(Card card);
     Card& dealCard();
-    bool isEmpty() const;
-private:
+    [[nodiscard]] bool isEmpty() const;
+
     Deck(Deck&) = delete;
     Deck& operator=(Deck&) = delete;
 private:
@@ -26,7 +31,7 @@ private:
 Deck::Deck() {
     for (int suit = 0; suit < Card::SUIT_COUNT; suit++) {
         for (int rank = 0; rank < Card::RANK_COUNT; rank++) {
-            cards.push_back(Card(static_cast<Card::Suit>(suit), static_cast<Card::Rank>(rank)));
+            cards.emplace_back(static_cast<Card::Suit>(suit), static_cast<Card::Rank>(rank));
         }
     }
 }
@@ -51,10 +56,10 @@ void Deck::add(Card card) {
     cards.push_back(card);
 }
 
-void Deck::printDeck() {
-    for (size_t i = 0; i < cards.size(); i++) {
-        std::cout << cards[i] << std::endl;
+[[maybe_unused]] void Deck::printDeck() {
+    for (auto & card : cards) {
+        std::cout << card << std::endl;
     }
 }
 
-#endif
+#endif //SOLITAIRE_DECK_H

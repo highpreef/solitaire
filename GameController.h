@@ -1,5 +1,9 @@
-#ifndef GAMECONTROLLER_H
-#define GAMECONTROLLER_H
+//
+// Created by DAVID on 06/09/2022.
+//
+
+#ifndef SOLITAIRE_GAMECONTROLLER_H
+#define SOLITAIRE_GAMECONTROLLER_H
 
 #include <iostream>
 #include <conio.h>
@@ -12,12 +16,11 @@ class GameController {
 public:
     GameController();
     void input();
-    Key getKey() const;
     void printKey() const;
     static void printInstructions() ;
     void printGame();
     void processKey();
-    bool isRunning() const;
+    [[nodiscard]] bool isRunning() const;
 
 private:
     Solitaire game;
@@ -55,10 +58,6 @@ void GameController::input() {
 }
 
 GameController::GameController()= default;
-
-Key GameController::getKey() const {
-    return key;
-}
 
 void GameController::printKey() const {
     switch(key) {
@@ -124,4 +123,4 @@ bool GameController::isRunning() const {
     return running;
 }
 
-#endif
+#endif //SOLITAIRE_GAMECONTROLLER_H

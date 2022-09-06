@@ -1,5 +1,9 @@
-#ifndef CARD_H
-#define CARD_H
+//
+// Created by DAVID on 06/09/2022.
+//
+
+#ifndef SOLITAIRE_CARD_H
+#define SOLITAIRE_CARD_H
 
 #include<iostream>
 #include<windows.h>
@@ -19,7 +23,7 @@ public:
 
     void flip();
     bool isFaceUp() const;
-    
+
     int getScore() const;
     Suit getSuit() const;
     Rank getRank() const;
@@ -48,13 +52,13 @@ int Card::getScore() const {
     if (rank == ACE)
         return 1;
     else if(rank == TEN)
-		return 10;
-	else if(rank == JACK)
-		return 11;
-	else if(rank == QUEEN)
-		return 12;
-	else if(rank == KING)
-		return 13;
+        return 10;
+    else if(rank == JACK)
+        return 11;
+    else if(rank == QUEEN)
+        return 12;
+    else if(rank == KING)
+        return 13;
     else
         return rank - '0';
 }
@@ -90,4 +94,4 @@ std::ostream& operator<<(std::ostream& os, const Card& card) {
     return os;
 }
 
-#endif
+#endif //SOLITAIRE_CARD_H

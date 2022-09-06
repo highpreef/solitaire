@@ -1,5 +1,9 @@
-#ifndef ABSTRACTCARDSTACK_H
-#define ABSTRACTCARDSTACK_H
+//
+// Created by DAVID on 06/09/2022.
+//
+
+#ifndef SOLITAIRE_ABSTRACTCARDSTACK_H
+#define SOLITAIRE_ABSTRACTCARDSTACK_H
 
 #include "Card.h"
 #include <deque>
@@ -49,4 +53,4 @@ std::deque<Card>& AbstractCardStack::getCards() {
     return cards;
 }
 
-#endif
+#endif //SOLITAIRE_ABSTRACTCARDSTACK_H

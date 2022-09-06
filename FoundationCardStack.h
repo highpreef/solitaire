@@ -1,5 +1,9 @@
-#ifndef FOUNDATIONCARDSTACK_H
-#define FOUNDATIONCARDSTACK_H
+//
+// Created by DAVID on 06/09/2022.
+//
+
+#ifndef SOLITAIRE_FOUNDATIONCARDSTACK_H
+#define SOLITAIRE_FOUNDATIONCARDSTACK_H
 
 #include "AbstractCardStack.h"
 
@@ -7,15 +11,13 @@ class FoundationCardStack : public AbstractCardStack
 {
 public:
     FoundationCardStack();
-    ~FoundationCardStack();
+    ~FoundationCardStack() override;
     bool canAdd(const Card& card) override;
 };
 
-FoundationCardStack::FoundationCardStack() {
-}
+FoundationCardStack::FoundationCardStack() = default;
 
-FoundationCardStack::~FoundationCardStack() {
-}
+FoundationCardStack::~FoundationCardStack() = default;
 
 bool FoundationCardStack::canAdd(const Card& card) {
     if (isEmpty()) {
@@ -27,4 +29,4 @@ bool FoundationCardStack::canAdd(const Card& card) {
     }
 }
 
-#endif
+#endif //SOLITAIRE_FOUNDATIONCARDSTACK_H

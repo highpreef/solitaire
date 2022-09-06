@@ -1,5 +1,9 @@
-#ifndef WASTECARDSTACK_H
-#define WASTECARDSTACK_H
+//
+// Created by DAVID on 06/09/2022.
+//
+
+#ifndef SOLITAIRE_WASTECARDSTACK_H
+#define SOLITAIRE_WASTECARDSTACK_H
 
 #include "AbstractCardStack.h"
 
@@ -7,18 +11,16 @@ class WasteCardStack : public AbstractCardStack
 {
 public:
     WasteCardStack();
-    ~WasteCardStack();
+    ~WasteCardStack() override;
     bool canAdd(const Card& card) override;
 };
 
-WasteCardStack::WasteCardStack() {
-}
+WasteCardStack::WasteCardStack() = default;
 
-WasteCardStack::~WasteCardStack() {
-}
+WasteCardStack::~WasteCardStack() = default;
 
 bool WasteCardStack::canAdd(const Card& card) {
     return true;
 }
 
-#endif
+#endif //SOLITAIRE_WASTECARDSTACK_H

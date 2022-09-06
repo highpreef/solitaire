@@ -1,5 +1,9 @@
-#ifndef CURSOR_H
-#define CURSOR_H
+//
+// Created by DAVID on 06/09/2022.
+//
+
+#ifndef SOLITAIRE_CURSOR_H
+#define SOLITAIRE_CURSOR_H
 
 #include "Solitaire.h"
 #include "Key.h"
@@ -10,9 +14,9 @@ public:
     enum State { TABLEAU, FOUNDATION, STOCK};
     Cursor();
     void move(Key key, std::array<TableauCardStack, 7>& tableaus);
-    State getState() const;
-    int getColumn() const;
-    bool isLastCard() const;
+    [[nodiscard]] State getState() const;
+    [[nodiscard]] int getColumn() const;
+    [[nodiscard]] bool isLastCard() const;
 private:
     State state = TABLEAU;
     int col = 0;
@@ -92,4 +96,4 @@ bool Cursor::isLastCard() const {
     return lastCard;
 }
 
-#endif
+#endif //SOLITAIRE_CURSOR_H
