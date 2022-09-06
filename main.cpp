@@ -12,6 +12,7 @@ int main()
         controller.printInstructions();
         controller.input();
         controller.printKey();
+        controller.processKey();
 
         /*
         char option;

@@ -117,12 +117,6 @@ void Solitaire::pop(char from) {
 }
 
 void Solitaire::move() {
-    char from, to;
-    std::cout << "From: ";
-    std::cin >> from;
-    std::cout << "To: ";
-    std::cin >> to;
-
     if ((from != 's' && !isdigit(from)) || (to != 'f' && !isdigit(to))) {
         std::cout << "Invalid input" << std::endl;
         return;

@@ -14,7 +14,7 @@ public:
     void input();
     Key getKey() const;
     void printKey() const;
-    void printInstructions() const;
+    static void printInstructions() ;
     void printGame();
     void processKey();
     bool isRunning() const;
@@ -54,8 +54,7 @@ void GameController::input() {
     }
 }
 
-GameController::GameController(){
-}
+GameController::GameController()= default;
 
 Key GameController::getKey() const {
     return key;
@@ -90,7 +89,7 @@ void GameController::printKey() const {
     }
 }
 
-void GameController::printInstructions() const {
+void GameController::printInstructions() {
     std::cout << "Instructions:" << std::endl;
     std::cout << "w - move up" << std::endl;
     std::cout << "s - move down" << std::endl;
