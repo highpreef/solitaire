@@ -48,6 +48,9 @@ void Solitaire::init() {
 void Solitaire::deal() {
     if (!stock.isEmpty() && stock.peek().isFaceUp()) {
         Card& card = stock.peek();
+        if (card.isFaceUp()) {
+            card.flip();
+        }
         stock.getCards().pop_back();
         waste.add(card, true);
     }
@@ -61,10 +64,8 @@ void Solitaire::deal() {
         return;
     }
     Card& card = deck.dealCard();
-    if (!card.isFaceUp())
-        card.flip();
+    card.flip();
     stock.add(card, true);
-    deck.printDeck();
 }
 
 void Solitaire::bufferCard(char from) {

@@ -20,6 +20,10 @@ int main()
             case 49:
                 std::cout << "Move Card";
                 game.move();
+                if (game.isWon()) {
+                    std::cout << "You won!" << std::endl;
+                    isRunning = false;
+                }
                 break;
             case 50:
                 std::cout << "Deal";
