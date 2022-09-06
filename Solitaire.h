@@ -48,7 +48,6 @@ void Solitaire::init() {
 void Solitaire::deal() {
     if (!stock.isEmpty() && stock.peek().isFaceUp()) {
         Card& card = stock.peek();
-        card.flip();
         stock.getCards().pop_back();
         waste.add(card, true);
     }
@@ -58,10 +57,14 @@ void Solitaire::deal() {
             waste.getCards().pop_back();
             deck.add(card);
         }
+        std::cout << "Deck is empty. Shuffling waste." << std::endl;
+        return;
     }
     Card& card = deck.dealCard();
-    card.flip();
+    if (!card.isFaceUp())
+        card.flip();
     stock.add(card, true);
+    deck.printDeck();
 }
 
 void Solitaire::bufferCard(char from) {
