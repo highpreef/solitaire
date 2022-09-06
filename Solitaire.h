@@ -1,10 +1,14 @@
-#ifndef SOLITAIRE_H
-#define SOLITAIRE_H
+//
+// Created by DAVID on 06/09/2022.
+//
+
+#ifndef SOLITAIRE_SOLITAIRE_H
+#define SOLITAIRE_SOLITAIRE_H
 
 #include <iostream>
 #include <array>
 #include <deque>
-#include <ctype.h>
+#include <cctype>
 #include "Cursor.h"
 #include "Deck.h"
 #include "FoundationCardStack.h"
@@ -29,7 +33,7 @@ private:
     void init();
     Cursor cursor;
     bool movingCard = false;
-    char from, to;
+    char from{}, to{};
 
     Deck deck;
     std::array<FoundationCardStack, 4> foundations;
@@ -161,9 +165,10 @@ bool Solitaire::isWon() {
 void Solitaire::print() {
     Cursor::State state = cursor.getState();
     int column = cursor.getColumn();
+    bool lastCard = cursor.isLastCard();
 
     std::cout<<"=============================================\n";
-	for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++) {
         if (state == Cursor::State::FOUNDATION && column == i) {
             std::cout << ">";
         }
@@ -174,10 +179,10 @@ void Solitaire::print() {
         std::cout << "\t";
 
     }
-	std::cout<< std::endl << "=============================================\n" << std::endl;
+    std::cout<< std::endl << "=============================================\n" << std::endl;
 
     std::cout<<"--------------------------------------------\n";
-	std::cout<<"Stock: ";
+    std::cout<<"Stock: ";
     if (state == Cursor::State::STOCK && column == 0) {
         std::cout << ">";
     }
@@ -186,10 +191,10 @@ void Solitaire::print() {
     } else {
         std::cout << "[ ]";
     }
-	std::cout<<"\n--------------------------------------------\n";
+    std::cout<<"\n--------------------------------------------\n";
 
     std::cout<< "| 0 | \t | 1 | \t | 2 | \t | 3 | \t | 4 | \t | 5 | \t | 6 |\n";
-	std::cout<< "----- \t ----- \t ----- \t ----- \t ----- \t ----- \t -----\n";
+    std::cout<< "----- \t ----- \t ----- \t ----- \t ----- \t ----- \t -----\n";
 
     int max = 0;
 
@@ -198,10 +203,21 @@ void Solitaire::print() {
             max = tableaus[i].getCards().size();
         }
     }
+    int highlight = 0;
+    if (tableaus[column].size() > 0) {
+        int firstSideUp = 0;
+        for (size_t i = 0; i < tableaus[column].size(); i++) {
+            if (tableaus[column].getCards()[i].isFaceUp()) {
+                firstSideUp = i;
+                break;
+            }
+        }
+        highlight = lastCard ? tableaus[column].size() - 1 : firstSideUp;
+    }
 
     for (int i = 0; i < max; i++) {
         for (int j = 0; j < 7; j++) {
-            if (state == Cursor::State::TABLEAU && column == j) {
+            if (state == Cursor::State::TABLEAU && column == j && i == highlight) {
                 std::cout << ">";
             }
             if (static_cast<int>(tableaus[j].getCards().size()) > i) {
@@ -216,7 +232,7 @@ void Solitaire::print() {
 }
 
 void Solitaire::moveCursor(Key key) {
-    cursor.move(key);
+    cursor.move(key, tableaus);
 }
 
 void Solitaire::select() {
@@ -246,5 +262,4 @@ bool Solitaire::isMovingCard() const {
     return movingCard;
 }
 
-
-#endif
+#endif //SOLITAIRE_SOLITAIRE_H

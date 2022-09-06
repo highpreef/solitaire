@@ -7,15 +7,14 @@ class TableauCardStack : public AbstractCardStack
 {
 public:
     TableauCardStack();
-    ~TableauCardStack();
+    ~TableauCardStack() override;
     bool canAdd(const Card& card) override;
+    int getVisibleCardCount();
 };
 
-TableauCardStack::TableauCardStack() {
-}
+TableauCardStack::TableauCardStack() = default;
 
-TableauCardStack::~TableauCardStack() {
-}
+TableauCardStack::~TableauCardStack() = default;
 
 bool TableauCardStack::canAdd(const Card& card) {
     if (isEmpty()) {
@@ -25,6 +24,16 @@ bool TableauCardStack::canAdd(const Card& card) {
         Card& topCard = peek();
         return topCard.getSuit() != card.getSuit() && topCard.getRank() - 1 == card.getRank();
     }
+}
+
+int TableauCardStack::getVisibleCardCount(){
+    int count = 0;
+    for (auto & i : getCards()) {
+        if (i.isFaceUp()) {
+            count++;
+        }
+    }
+    return count;
 }
 
 #endif

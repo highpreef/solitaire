@@ -3,27 +3,33 @@
 
 #include "Solitaire.h"
 #include "Key.h"
+#include "TableauCardStack.h"
 
 class Cursor {
 public:
     enum State { TABLEAU, FOUNDATION, STOCK};
     Cursor();
-    void move(Key key);
+    void move(Key key, std::array<TableauCardStack, 7>& tableaus);
     State getState() const;
     int getColumn() const;
+    bool isLastCard() const;
 private:
     State state = TABLEAU;
     int col = 0;
+    bool lastCard = true;
 };
 
-Cursor::Cursor() {
-}
+Cursor::Cursor() = default;
 
-void Cursor::move(Key key) {
+void Cursor::move(Key key, std::array<TableauCardStack, 7>& tableaus) {
     switch (key) {
         case Key::UP:
             if (state == TABLEAU) {
-                state = STOCK;
+                if (lastCard && tableaus[col].getVisibleCardCount() > 1) {
+                    lastCard = !lastCard;
+                } else {
+                    state = STOCK;
+                }
             } else if (state == FOUNDATION) {
                 state = TABLEAU;
             } else if (state == STOCK) {
@@ -33,7 +39,11 @@ void Cursor::move(Key key) {
             break;
         case Key::DOWN:
             if (state == TABLEAU) {
-                state = FOUNDATION;
+                if (!lastCard && tableaus[col].getVisibleCardCount() > 1) {
+                    lastCard = !lastCard;
+                } else {
+                    state = FOUNDATION;
+                }
             } else if (state == FOUNDATION) {
                 state = STOCK;
             } else if (state == STOCK) {
@@ -72,6 +82,10 @@ Cursor::State Cursor::getState() const {
 
 int Cursor::getColumn() const {
     return col;
+}
+
+bool Cursor::isLastCard() const {
+    return lastCard;
 }
 
 #endif

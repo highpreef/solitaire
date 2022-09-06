@@ -111,6 +111,10 @@ void GameController::processKey() {
         game.deal();
     } else if (key == Key::ENTER) {
         game.select();
+        if (game.isWon()) {
+            std::cout << "You won!" << std::endl;
+            running = false;
+        }
     } else if (key == Key::ESC) {
         running = false;
     }
