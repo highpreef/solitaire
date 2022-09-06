@@ -1,13 +1,19 @@
 #include<iostream>
 #include "Solitaire.h"
+#include "GameController.h"
 bool isRunning = true;
-Solitaire game;
+GameController controller;
 
 int main()
 {
-    game.print();
-    while (isRunning)
+    controller.printGame();
+    while (controller.isRunning())
     {
+        controller.printInstructions();
+        controller.input();
+        controller.printKey();
+
+        /*
         char option;
 		std::cout << "\n\n1. Move Card";		
 		std::cout << "\n2. Deal";
@@ -37,8 +43,9 @@ int main()
                 std::cin.ignore(80, '\n');
                 break;
         }
+        */
         system("cls");
-        game.print();
+        controller.printGame();
     }
     return 0;
 }

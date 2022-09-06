@@ -5,11 +5,13 @@
 #include <array>
 #include <deque>
 #include <ctype.h>
+#include "Cursor.h"
 #include "Deck.h"
 #include "FoundationCardStack.h"
 #include "TableauCardStack.h"
 #include "WasteCardStack.h"
 #include "StockCardStack.h"
+#include "Key.h"
 
 class Solitaire {
 public:
@@ -20,8 +22,15 @@ public:
     void move();
     bool isWon();
     void print();
+    void moveCursor(Key key);
+    void select();
+    bool isMovingCard() const;
 private:
     void init();
+    Cursor cursor;
+    bool movingCard = false;
+    char from, to;
+
     Deck deck;
     std::array<FoundationCardStack, 4> foundations;
     std::array<TableauCardStack, 7> tableaus;
@@ -156,8 +165,14 @@ bool Solitaire::isWon() {
 }
 
 void Solitaire::print() {
+    Cursor::State state = cursor.getState();
+    int column = cursor.getColumn();
+
     std::cout<<"=============================================\n";
 	for (int i = 0; i < 4; i++) {
+        if (state == Cursor::State::FOUNDATION && column == i) {
+            std::cout << ">";
+        }
         if (!foundations[i].isEmpty())
             std::cout << foundations[i].peek();
         else
@@ -169,6 +184,9 @@ void Solitaire::print() {
 
     std::cout<<"--------------------------------------------\n";
 	std::cout<<"Stock: ";
+    if (state == Cursor::State::STOCK && column == 0) {
+        std::cout << ">";
+    }
     if (!stock.isEmpty()) {
         std::cout << stock.peek();
     } else {
@@ -189,15 +207,49 @@ void Solitaire::print() {
 
     for (int i = 0; i < max; i++) {
         for (int j = 0; j < 7; j++) {
-            if (static_cast<int>(tableaus[j].getCards().size()) > i) {
-                std::cout << tableaus[j].getCards()[i];
-            } else {
-                std::cout << "[ ]";
+            if (state == Cursor::State::TABLEAU && column == j) {
+                std::cout << ">";
             }
-            std::cout << "\t";
+            if (static_cast<int>(tableaus[j].getCards().size()) > i) {
+                std::cout << " " << tableaus[j].getCards()[i];
+            } else {
+                std::cout << " " << "[ ]";
+            }
+            std::cout << "\t ";
         }
         std::cout << std::endl;
     }
+}
+
+void Solitaire::moveCursor(Key key) {
+    cursor.move(key);
+}
+
+void Solitaire::select() {
+    char value;
+    Cursor::State state = cursor.getState();
+    int column = cursor.getColumn();
+
+    if (state == Cursor::State::FOUNDATION) {
+        value = 'f';
+    } else if (state == Cursor::State::TABLEAU) {
+        value = column + 48;
+    } else if (state == Cursor::State::STOCK) {
+        value = 's';
+    }
+
+    if (!isMovingCard()) {
+        from = value;
+        movingCard = true;
+    } else {
+        to = value;
+        movingCard = false;
+        move();
+    }
+}
+
+bool Solitaire::isMovingCard() const {
+    return movingCard;
 }
 
 
