@@ -167,9 +167,6 @@ void Solitaire::print() {
     int column = cursor.getColumn();
     bool lastCard = cursor.isLastCard();
 
-    std::cout << "State: " << state << std::endl;
-    std::cout << "Column: " << column << std::endl;
-
     std::cout<<"=============================================\n";
     for (int i = 0; i < 4; i++) {
         if (state == Cursor::State::FOUNDATION && column == i) {
