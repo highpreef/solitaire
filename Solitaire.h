@@ -15,7 +15,7 @@ class Solitaire {
 public:
     Solitaire();
     void deal();
-    void bufferCard(char from);
+    void bufferCard(char from, char to);
     void pop(char from);
     void move();
     bool isWon();
@@ -68,7 +68,7 @@ void Solitaire::deal() {
     stock.add(card, true);
 }
 
-void Solitaire::bufferCard(char from) {
+void Solitaire::bufferCard(char from, char to) {
     while (buffer.size() > 0)
         buffer.pop_back();
 
@@ -83,10 +83,13 @@ void Solitaire::bufferCard(char from) {
             std::cout << "Tableau " << from << " is empty" << std::endl;
             return;
         }
-
-        for (size_t i = 0; i < tableaus[from - '0'].size(); i++) {
-            if (tableaus[from - '0'].getCards()[i].isFaceUp()) {
-                buffer.push_back(tableaus[from - '0'].getCards()[i]);
+        if (to == 'f') {
+            buffer.push_back(tableaus[from - '0'].peek());
+        } else {
+            for (size_t i = 0; i < tableaus[from - '0'].size(); i++) {
+                if (tableaus[from - '0'].getCards()[i].isFaceUp()) {
+                    buffer.push_back(tableaus[from - '0'].getCards()[i]);
+                }
             }
         }
     }
@@ -116,7 +119,7 @@ void Solitaire::move() {
         return;
     }
 
-    bufferCard(from);
+    bufferCard(from, to);
     if (buffer.empty())
         return;
 
