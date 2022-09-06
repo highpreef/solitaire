@@ -29,6 +29,7 @@ void Cursor::move(Key key, std::array<TableauCardStack, 7>& tableaus) {
                     lastCard = !lastCard;
                 } else {
                     state = STOCK;
+                    col = 0;
                 }
             } else if (state == FOUNDATION) {
                 state = TABLEAU;
@@ -44,6 +45,7 @@ void Cursor::move(Key key, std::array<TableauCardStack, 7>& tableaus) {
                     lastCard = !lastCard;
                 } else {
                     state = FOUNDATION;
+                    col = 0;
                 }
             } else if (state == FOUNDATION) {
                 state = STOCK;

@@ -167,6 +167,9 @@ void Solitaire::print() {
     int column = cursor.getColumn();
     bool lastCard = cursor.isLastCard();
 
+    std::cout << "State: " << state << std::endl;
+    std::cout << "Column: " << column << std::endl;
+
     std::cout<<"=============================================\n";
     for (int i = 0; i < 4; i++) {
         if (state == Cursor::State::FOUNDATION && column == i) {
@@ -215,7 +218,7 @@ void Solitaire::print() {
         highlight = lastCard ? static_cast<int>(tableaus[column].size() - 1) : firstSideUp;
 
         if (movingCard) {
-            highlight += 1;
+            highlight = static_cast<int>(tableaus[column].size());
             if (highlight >= max) {
                 max += 1;
             }
@@ -240,6 +243,7 @@ void Solitaire::print() {
 
 void Solitaire::moveCursor(Key key) {
     cursor.move(key, tableaus);
+    std::cout << cursor.getState() << std::endl;
 }
 
 void Solitaire::select() {
