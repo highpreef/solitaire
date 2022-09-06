@@ -101,7 +101,7 @@ void Solitaire::pop(char from) {
         stock.getCards().pop_back();
     } else {
         tableaus[from - '0'].getCards().pop_back();
-        if (buffer.empty() && !tableaus[from - '0'].isEmpty()) {
+        if (buffer.empty() && !tableaus[from - '0'].isEmpty() && !tableaus[from - '0'].peek().isFaceUp()) {
             tableaus[from - '0'].peek().flip();
         }
     }
