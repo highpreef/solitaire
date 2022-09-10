@@ -6,6 +6,10 @@
 #include "GameController.h"
 GameController controller;
 
+/**
+ * Main function
+ * @return
+ */
 int main()
 {
     controller.printGame();
